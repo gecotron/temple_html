@@ -73,7 +73,7 @@ h4 {
 }
 
 input {
-	width: 95%;
+	width: 98%;
 
 	border: 0.25ch solid #8f43ee;
 	border-radius: 0;
@@ -100,4 +100,16 @@ select:focus,
 textarea:focus,
 button:focus {
 	outline: none;
+}
+
+.output {
+	color: #f0eb8d;
+}
+
+.command {
+	color: #5cb338;
+}
+
+.error {
+	color: #fb4141;
 }
