@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" href="style.css" />
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+		></script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="game" x-data="gameData">
+				<div id="infobar">
+					<h3 x-text="name"></h3>
+					<h3>Score: <a x-text="score"></a></h3>
+					<h4 x-text="version"></h4>
+				</div>
+				<div id="output">
+					<template x-for="response in responses">
+						<p x-text="response"></p>
+					</template>
+				</div>
+				<div id="input">
+					<input
+						type="text"
+						x-model="input"
+						x-on:keyup.enter="readInput"
+						placeholder="i await your command..."
+					/>
+				</div>
+			</div>
+		</div>
+		<script>
+			document.addEventListener("alpine:init", () => {
+				Alpine.data("gameData", () => ({
+					// Program info
+					name: "temple_html",
+					version: "0.1.0",
+					score: 0,
+					// User input
+					input: "",
+					command: "",
+					// Output store
+					output: [
+						`You wake up in the temple of [name]. On your table lies a note, listing your duties for the day, better get started!`,
+					],
+
+					// Input handling
+					commands: [
+						"move",
+						"north",
+						"east",
+						"west",
+						"south",
+						"grab",
+						"drop",
+						"ritual",
+					],
+
+					readInput() {
+						// Pipe input to output
+						this.command = `> ${this.input}`;
+						console.log(this.command);
+						this.output.push(this.command);
+						// Parse input and respond
+						let inputs = this.input.split(" ");
+
+						// Clear input
+						this.input = "";
+					},
+
+					get responses() {
+						return this.output.toReversed();
+					},
+				}));
+			});
+		</script>
+	</body>
+</html>

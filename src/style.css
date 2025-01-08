@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Sono:wght@200..800&display=swap");
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+
+	background-color: #c58940;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' width='80' height='80'%3E%3Cg fill='%23faeab1' fill-opacity='0.4'%3E%3Cpath d='M0 0h80v80H0V0zm20 20v40h40V20H20zm20 35a15 15 0 1 1 0-30 15 15 0 0 1 0 30z' opacity='.5'%3E%3C/path%3E%3Cpath d='M15 15h50l-5 5H20v40l-5 5V15zm0 50h50V15L80 0v80H0l15-15zm32.07-32.07l3.54-3.54A15 15 0 0 1 29.4 50.6l3.53-3.53a10 10 0 1 0 14.14-14.14zM32.93 47.07a10 10 0 1 1 14.14-14.14L32.93 47.07z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+	color: #fff;
+
+	font-family: "Sono", serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings: "MONO" 1;
+}
+
+h4 {
+	color: #8f43ee;
+}
+
+/*::selection {
+	background-color:;
+	color:;
+}*/
+
+#container {
+	height: 100vh;
+	width: 100vw;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#infobar {
+	display: flex;
+	justify-content: space-between;
+}
+
+#game {
+	background-color: #2d2727;
+	color: #f0eb8d;
+
+	height: 100%;
+	width: 100%;
+
+	padding: 2ch;
+
+	height: 65ch;
+	width: 95ch;
+
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+#game > div {
+	width: 100%;
+}
+
+#output {
+	flex-grow: 2;
+
+	overflow: auto;
+	display: flex;
+	flex-direction: column-reverse;
+
+	overflow: scroll;
+}
+
+input {
+	width: 95%;
+
+	border: 0.25ch solid #8f43ee;
+	border-radius: 0;
+
+	padding: 1ch;
+	margin: 0;
+
+	background-color: #413543;
+	color: #eee;
+
+	font-family: "Sono", serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	font-variation-settings: "MONO" 1;
+}
+
+input:placeholder {
+	color: #ccc;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+	outline: none;
+}
