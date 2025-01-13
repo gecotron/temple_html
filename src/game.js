@@ -39,7 +39,7 @@ document.addEventListener("alpine:init", () => {
 		name: "Obelisk",
 		short: "a tall statue.",
 		desc: "A tall carved monument that depicts a past pharoah in glorious and wonderful detail.",
-		items: [],
+		items: ["sillycat"],
 	};
 	const barq = {
 		name: "Barque",
@@ -68,7 +68,7 @@ document.addEventListener("alpine:init", () => {
 		input: "",
 		command: "",
 		// Player data
-		position: { x: 1, y: 4 },
+		position: { x: 2, y: 4 },
 		items: [],
 		// Output store
 		output: [
@@ -80,19 +80,20 @@ document.addEventListener("alpine:init", () => {
 
 		// Game data
 		layout: [
-			[none, none, none, none, none],
-			[none, none, sanc, none, none],
-			[none, none, barq, none, none],
-			[none, none, hall, none, none],
-			[pool, pool, hall, stor, stor],
-			[none, none, hall, none, none],
-			[none, none, hall, none, none],
-			[none, cour, cour, cour, none],
-			[none, cour, cour, cour, none],
-			[none, cour, cour, cour, none],
-			[none, cour, cour, cour, none],
-			[none, none, gate, none, none],
-			[none, obel, gate, obel, none],
+			[none, none, none, none, none, none, none],
+			[none, none, none, sanc, none, none, none],
+			[none, none, none, barq, none, none, none],
+			[none, none, none, hall, none, none, none],
+			[none, pool, pool, hall, stor, stor, none],
+			[none, none, none, hall, none, none, none],
+			[none, none, none, hall, none, none, none],
+			[none, none, cour, cour, cour, none, none],
+			[none, none, cour, cour, cour, none, none],
+			[none, none, cour, cour, cour, none, none],
+			[none, none, cour, cour, cour, none, none],
+			[none, none, none, gate, none, none, none],
+			[none, none, obel, gate, obel, none, none],
+			[none, none, none, none, none, none, none],
 		],
 
 		bathed: false,
@@ -159,6 +160,10 @@ document.addEventListener("alpine:init", () => {
 					break;
 				case "look":
 					this.look();
+					break;
+				case "map":
+				case "area":
+					this.map();
 					break;
 				case "stuff":
 				case "inventory":
@@ -313,24 +318,33 @@ document.addEventListener("alpine:init", () => {
 						}
 					} else if (
 						this.layout[this.position.y][this.position.x].name == "Sanctuary" &&
-						rites[1] == "thoth" &&
-						rites[2] == "incense"
+						rites[1] == "thoth"
 					) {
 						if (
 							this.layout[this.position.y][this.position.x].items.includes(
 								"statue",
-							) &&
-							this.items.includes("incense")
+							)
 						) {
-							if (!this.offering) {
-								this.offering = true;
-								this.time += 1;
+							if (rites[2] == "incense" && this.items.includes("incense")) {
+								if (!this.offering) {
+									this.offering = true;
+									this.time += 1;
+								}
+								this.output.push({
+									text: `You offer incense to the primary god of your temple. He is pleased.`,
+									type: "ritual",
+								});
+								this.dropItem("incense");
+							} else if (
+								rites[2] == "kiss" &&
+								rites[3] == "boys" &&
+								this.items.includes("sillycat")
+							) {
+								this.output.push({
+									text: `Θώθ whats this?`,
+									type: "ritual",
+								});
 							}
-							this.output.push({
-								text: `You offer incense to the primary god of your temple. He is pleased.`,
-								type: "ritual",
-							});
-							this.dropItem("incense");
 						}
 						break;
 					} else {
@@ -386,6 +400,22 @@ document.addEventListener("alpine:init", () => {
 			}
 		},
 
+		map() {
+			this.output.push({ text: "Location:", type: "ritual" });
+			this.output.push({
+				text: `[${this.layout[this.position.y - 1][this.position.x - 1].name}][${this.layout[this.position.y - 1][this.position.x].name}][${this.layout[this.position.y - 1][this.position.x + 1].name}]`,
+				type: "ritual",
+			});
+			this.output.push({
+				text: `[${this.layout[this.position.y][this.position.x - 1].name}](${this.layout[this.position.y][this.position.x].name})[${this.layout[this.position.y][this.position.x + 1].name}]`,
+				type: "output",
+			});
+			this.output.push({
+				text: `[${this.layout[this.position.y + 1][this.position.x - 1].name}][${this.layout[this.position.y + 1][this.position.x].name}][${this.layout[this.position.y + 1][this.position.x + 1].name}]`,
+				type: "ritual",
+			});
+		},
+
 		look() {
 			console.log(this.position.x);
 			console.log(this.position.y);
@@ -435,7 +465,7 @@ document.addEventListener("alpine:init", () => {
 
 		help() {
 			this.output.push({
-				text: `Are you lost? You can type 'look' to get an idea of the room you are in.`,
+				text: `Are you lost? You can type 'look' to get an idea of the room you are in. Or, type 'map' for a view of nearby rooms`,
 				type: "output",
 			});
 			this.output.push({
@@ -447,11 +477,15 @@ document.addEventListener("alpine:init", () => {
 				type: "output",
 			});
 			this.output.push({
-				text: `ritual [god] [rite] - perform a ritual in a gods name.`,
+				text: `ritual [god/location] [rite/object] - perform a ritual in a gods name.`,
 				type: "output",
 			});
 			this.output.push({
-				text: `grab/drop [item] - pick up an item in a room, or leave it there. You can {look} for items. get/place also work.`,
+				text: `grab/get [item] - pick up an item in a room.`,
+				type: "output",
+			});
+			this.output.push({
+				text: `drop/place [item] - put an item down in a room.`,
 				type: "output",
 			});
 		},
@@ -462,17 +496,6 @@ document.addEventListener("alpine:init", () => {
 
 		get currentRoom() {
 			return this.layout[this.position.y][this.position.x].name;
-		},
-
-		get modeFrame() {
-			switch (this.mode) {
-				case "game":
-					return "game.html";
-				case "credits":
-					return "credits.html";
-				case "title":
-					return "title.html";
-			}
 		},
 	}));
 });
