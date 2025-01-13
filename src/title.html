@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+	<head>
+		<title>temple</title>
+		<link rel="stylesheet" href="style.css" />
+		<script defer src="alpine.js"></script>
+	</head>
+	<body>
+		<div id="container" x-data>
+	<div id="game">
+		<div>
+			<h1>Temple html!</h1>
+			<p>
+				Welcome to temple_html, a short interactive text game, based on
+				the temples of ancient Egypt!
+			</p>
+			<p>
+				Are you ready to step into the shoes of a priest of one of these
+				temples, to learn and navigate its rooms to fufill your duties?
+				Press on ahead, but be sure to read the guide below.
+			</p>
+			<h2>Valid commands</h2>
+			<ul>
+				<li>
+					<a class="ritual">/east/south/west<a/>
+					- This allows you to move around the temple. You can add an
+					additional value to make quick strides through the long
+					hallway and large courtyard!
+				</li>
+				<li>
+					<a class="ritual">ritual [god/place] [object/action]</a> - The most important
+					thing you can do as a priest! Be sure to reference the room
+					with <strong>look</strong> and your items with
+					<strong>inventory</strong> to get clues on what to do, and
+					that you can perform the task.
+				</li>
+				<li>
+					<a class="ritual">look</a> - When a glance at the room isn't enough, you can look around for a better description of the room, as well as some hints for rituals, items and the local area.
+				</li>
+				<li>
+					<a class="ritual">inventory/stuff</a> - Check your pockets for what you have on you. Useful to make sure you grabbed the offering you needed for a ritual.
+				</li>
+				<li>
+					<a class="ritual">get/grab</a> - Pick up an item in a room. Do note that picking up items after performing rituals with them <strong>RESET THE RITUAL</strong>.
+				</li>
+				<li>
+					<a class="ritual">drop/place</a> - Put down an object from your inventory. Required for some rituals as the item needs to be interacted with, and not used.
+				</li>
+			</ul>
+			<p>
+				Remember, you can reference this again with the <strong>help</strong> command while you play!
+			</p>
+			<button x-data x-on:click="window.location.href = 'game.html'">Start game!</button>
+		</div>
+	</div>
+</html>

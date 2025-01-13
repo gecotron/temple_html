@@ -43,9 +43,6 @@ h4 {
 	background-color: #2d2727;
 	color: #f0eb8d;
 
-	height: 100%;
-	width: 100%;
-
 	padding: 2ch;
 
 	height: 65ch;
@@ -56,6 +53,8 @@ h4 {
 	flex-wrap: nowrap;
 	align-items: center;
 	justify-content: space-evenly;
+
+	border-radius: 0px;
 }
 
 #game > div {
@@ -64,12 +63,21 @@ h4 {
 
 #output {
 	flex-grow: 2;
+	margin: 1ch;
 
 	overflow: auto;
 	display: flex;
 	flex-direction: column-reverse;
 
-	overflow: scroll;
+	overflow-y: scroll;
+
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+
+	padding: 1ch;
+}
+#output::-webkit-scrollbar {
+	display: none;
 }
 
 input {
@@ -102,6 +110,35 @@ button:focus {
 	outline: none;
 }
 
+iframe {
+	border-style: none;
+	height: 100vh;
+	width: 100vw;
+}
+
+li + li {
+	margin-top: 1ch;
+}
+
+button {
+	border-radius: 0;
+	border: 0;
+	padding: 1ch;
+
+	font-family: "Sono", serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings: "MONO" 1;
+
+	color: #eee;
+	background-color: #5cb338;
+}
+
+button:active {
+	background-color:;
+}
+
 .output {
 	color: #f0eb8d;
 }
@@ -112,4 +149,8 @@ button:focus {
 
 .error {
 	color: #fb4141;
+}
+
+.ritual {
+	color: #8f43ee;
 }

@@ -3,32 +3,8 @@
 	<head>
 		<title>temple</title>
 		<link rel="stylesheet" href="style.css" />
-		<script defer src="alpine.js"></script>
 	</head>
 	<body>
-		<div id="container">
-			<div id="game" x-data="gameData">
-				<div id="infobar">
-					<h2 x-text="name"></h2>
-					<h3>Time: <a x-text="time"></a></h3>
-					<h3>Room: <a x-text="currentRoom"></a></h3>
-					<h4 x-text="version"></h4>
-				</div>
-				<div id="output">
-					<template x-for="response in responses">
-						<p x-text="response.text" :class="response.type"></p>
-					</template>
-				</div>
-				<div id="input">
-					<input
-						type="text"
-						x-model="input"
-						x-on:keyup.enter="readInput"
-						placeholder="i await your command..."
-					/>
-				</div>
-			</div>
-		</div>
-		<script src="game.js"></script>
+		<iframe src="title.html"></iframe>
 	</body>
 </html>
