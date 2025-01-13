@@ -1,7 +1,7 @@
 document.addEventListener("alpine:init", () => {
 	const gate = {
 		name: "Gateway",
-		short: "the entrance to your temple",
+		short: "the entrance to your temple.",
 		desc: "A massive gateway and entrance to your temple. At its sides rest massive Obelisks, depicting Pharaohs standing tall.",
 		items: [],
 	};
@@ -13,19 +13,25 @@ document.addEventListener("alpine:init", () => {
 	};
 	const hall = {
 		name: "Hallway",
-		short: "a long hall with columns that depict myths and legends",
+		short: "at its end, giving way to the deeper rooms of the temple.",
+		desc: "Here the columns of the hallway end to give way to doors to the more focused areas of the temple, including the Sanctuary of Thoth, the storeroom and the pool.",
+		items: [],
+	};
+	const hal2 = {
+		name: "Hallway",
+		short: "a long hall with columns that depict myths and legends.",
 		desc: "A long hall, supported by sandstone columns. The columns depict stories of the gods and your kings, powerful events and rites that happened in the past.",
 		items: ["incense"],
 	};
 	const none = {
 		name: "Empty",
 		short: "out of bounds :(",
-		desc: "You shouldn't be here. This is a bug the developer can't be arsed to fix.",
+		desc: "You shouldn't be here. This is a bug the developer can't be arsed to fix. Please go back as to not go truly out of bounds and break the game...",
 		items: [],
 	};
 	const pool = {
 		name: "Pool",
-		short: "",
+		short: "a pool reserved for priests to bathe in.",
 		desc: "A sacred pool of water ripples before you. Its qualities allow priests to bath in it to ensure purity for when they perform their rituals. In some ways, it is seen as a ritual itself to bathe in it.",
 		items: [],
 	};
@@ -36,6 +42,12 @@ document.addEventListener("alpine:init", () => {
 		items: ["wine", "flowers", "food"],
 	};
 	const obel = {
+		name: "Obelisk",
+		short: "a tall statue.",
+		desc: "A tall carved monument that depicts a past pharoah in glorious and wonderful detail.",
+		items: [""],
+	};
+	const ob3l = {
 		name: "Obelisk",
 		short: "a tall statue.",
 		desc: "A tall carved monument that depicts a past pharoah in glorious and wonderful detail.",
@@ -55,6 +67,12 @@ document.addEventListener("alpine:init", () => {
 		items: [],
 	};
 
+	const shri = {
+		name: "Shrine",
+		short: "a small shrine dedicated to other gods.",
+		desc: "These small shrines in the courtyard allow for those visiting to make offerings to other gods aside from the primary one that resides in the sanctum.",
+	};
+
 	function win() {
 		window.location.href = "credits.html";
 	}
@@ -68,7 +86,7 @@ document.addEventListener("alpine:init", () => {
 		input: "",
 		command: "",
 		// Player data
-		position: { x: 2, y: 4 },
+		position: { x: 2, y: 3 },
 		items: [],
 		// Output store
 		output: [
@@ -83,16 +101,10 @@ document.addEventListener("alpine:init", () => {
 			[none, none, none, none, none, none, none],
 			[none, none, none, sanc, none, none, none],
 			[none, none, none, barq, none, none, none],
-			[none, none, none, hall, none, none, none],
-			[none, pool, pool, hall, stor, stor, none],
-			[none, none, none, hall, none, none, none],
-			[none, none, none, hall, none, none, none],
-			[none, none, cour, cour, cour, none, none],
-			[none, none, cour, cour, cour, none, none],
-			[none, none, cour, cour, cour, none, none],
-			[none, none, cour, cour, cour, none, none],
-			[none, none, none, gate, none, none, none],
-			[none, none, obel, gate, obel, none, none],
+			[none, pool, pool, hall, stor, none, none],
+			[none, none, none, hal2, none, none, none],
+			[none, none, shri, cour, shri, none, none],
+			[none, none, obel, gate, ob3l, none, none],
 			[none, none, none, none, none, none, none],
 		],
 
@@ -217,6 +229,10 @@ document.addEventListener("alpine:init", () => {
 		performRitual(rites) {
 			switch (rites[1]) {
 				case "gate":
+				case "gates":
+				case "door":
+				case "doors":
+				case "doorway":
 				case "gateway":
 					if (this.layout[this.position.y][this.position.x].name == "Gateway") {
 						if (rites[2] == "open" && this.time >= 1) {
@@ -248,6 +264,7 @@ document.addEventListener("alpine:init", () => {
 					}
 					break;
 				case "pool":
+				case "bath":
 					if (rites[2] == "bathe" || rites[2] == "wash" || rites[2] == "bath") {
 						if (!this.bathed) {
 							this.bathed = true;
@@ -261,101 +278,117 @@ document.addEventListener("alpine:init", () => {
 					break;
 				default:
 					// God sorting
-					if (
-						this.layout[this.position.y][this.position.x].name == "Courtyard"
-					) {
-						switch (rites[2]) {
-							case "wine":
-								if (rites[1] == "horus" && this.items.includes(rites[2])) {
-									this.godsSorted += 1;
-									this.output.push({
-										text: `Horus accepts the offering of wine`,
-										type: "ritual",
-									});
-									this.dropItem(rites[2]);
-								} else {
-									this.output.push({
-										text: `This is not what will appease Horus`,
-										type: "error",
-									});
-								}
-								break;
-							case "flowers":
-								if (rites[1] == "taweret" && this.items.includes(rites[2])) {
-									this.godsSorted += 1;
-									this.output.push({
-										text: `Taweret accepts the offering of flowers`,
-										type: "ritual",
-									});
-									this.dropItem(rites[2]);
-								} else {
-									this.output.push({
-										text: `This is not what will appease Taweret`,
-										type: "error",
-									});
-								}
-								break;
-							case "food":
-								if (rites[1] == "khonshu" && this.items.includes(rites[2])) {
-									this.godsSorted += 1;
-									this.output.push({
-										text: `Khonshu accepts the offering of food`,
-										type: "ritual",
-									});
-									this.dropItem(rites[2]);
-								} else {
-									this.output.push({
-										text: `This is not what will appease Khonshu`,
-										type: "error",
-									});
-								}
-								break;
-							default:
-								this.output.push({
-									text: `${rites[2]} is not a valid ritual for ${rites[1]}`,
-									type: "error",
-								});
-						}
-					} else if (
-						this.layout[this.position.y][this.position.x].name == "Sanctuary" &&
-						rites[1] == "thoth"
-					) {
+					if (this.bathed && this.gatesOpen) {
 						if (
-							this.layout[this.position.y][this.position.x].items.includes(
-								"statue",
-							)
+							this.layout[this.position.y][this.position.x].name == "Shrine"
 						) {
-							if (rites[2] == "incense" && this.items.includes("incense")) {
-								if (!this.offering) {
-									this.offering = true;
-									this.time += 1;
-								}
-								this.output.push({
-									text: `You offer incense to the primary god of your temple. He is pleased.`,
-									type: "ritual",
-								});
-								this.dropItem("incense");
-							} else if (
-								rites[2] == "kiss" &&
-								rites[3] == "boys" &&
-								this.items.includes("sillycat")
-							) {
-								this.output.push({
-									text: `Θώθ whats this?`,
-									type: "ritual",
-								});
+							switch (rites[2]) {
+								case "wine":
+									if (rites[1] == "horus" && this.items.includes(rites[2])) {
+										this.godsSorted += 1;
+										this.output.push({
+											text: `Horus accepts the offering of wine`,
+											type: "ritual",
+										});
+										this.dropItem(rites[2]);
+									} else {
+										this.output.push({
+											text: `This is not what will appease Horus`,
+											type: "error",
+										});
+									}
+									break;
+								case "flowers":
+									if (rites[1] == "taweret" && this.items.includes(rites[2])) {
+										this.godsSorted += 1;
+										this.output.push({
+											text: `Taweret accepts the offering of flowers`,
+											type: "ritual",
+										});
+										this.dropItem(rites[2]);
+									} else {
+										this.output.push({
+											text: `This is not what will appease Taweret`,
+											type: "error",
+										});
+									}
+									break;
+								case "food":
+									if (rites[1] == "khonshu" && this.items.includes(rites[2])) {
+										this.godsSorted += 1;
+										this.output.push({
+											text: `Khonshu accepts the offering of food`,
+											type: "ritual",
+										});
+										this.dropItem(rites[2]);
+									} else {
+										this.output.push({
+											text: `This is not what will appease Khonshu`,
+											type: "error",
+										});
+									}
+									break;
+								default:
+									this.output.push({
+										text: `${rites[2]} is not a valid ritual for ${rites[1]}`,
+										type: "error",
+									});
 							}
+						} else if (
+							this.layout[this.position.y][this.position.x].name ==
+								"Sanctuary" &&
+							rites[1] == "thoth"
+						) {
+							if (
+								this.layout[this.position.y][this.position.x].items.includes(
+									"statue",
+								)
+							) {
+								if (rites[2] == "incense" && this.items.includes("incense")) {
+									if (!this.offering) {
+										this.offering = true;
+										this.time += 1;
+									}
+									this.output.push({
+										text: `You offer incense to the primary god of your temple. He is pleased.`,
+										type: "ritual",
+									});
+									this.dropItem("incense");
+								} else if (
+									rites[2] == "kiss" &&
+									rites[3] == "boys" &&
+									this.items.includes("sillycat")
+								) {
+									this.output.push({
+										text: `Θώθ whats this?`,
+										type: "ritual",
+									});
+								}
+							}
+							break;
+						} else {
+							this.output.push({
+								text: `${rites[2]} is not a valid ritual for ${rites[1]}`,
+								type: "error",
+							});
 						}
-						break;
 					} else {
-						this.output.push({
-							text: `${rites[2]} is not a valid ritual for ${rites[1]}`,
-							type: "error",
-						});
+						if (!this.bathed) {
+							this.output.push({
+								text: `You are too unclean to perform an offering to the gods!`,
+								type: "error",
+							});
+						}
+						if (!this.gatesOpen) {
+							this.output.push({
+								text: `The gates are not open! The gods will not accept an offering under these circumstances!`,
+								type: "error",
+							});
+						}
 					}
 			}
 
-			if (this.godsSorted >= 3) {
+			if (this.godsSorted >= 3 && this.time <= 3) {
 				this.time += 1;
 			}
 		},
