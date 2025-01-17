@@ -410,7 +410,7 @@ document.addEventListener("alpine:init", () => {
 					item == "statue"
 				) {
 					this.offering = false;
-					if (this.time >= 2) {
+					if (this.time >= 4) {
 						this.time--;
 					}
 				}
